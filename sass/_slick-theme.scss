@@ -1,0 +1,243 @@
+@charset 'UTF-8';
+
+// Default Variables
+
+$slick-font-path: '../fonts/' !default;
+$slick-font-family: 'fontawesome' !default;
+$slick-loader-path: '../img/' !default;
+$slick-arrow-color: #999 !default;
+$slick-dot-color: black !default;
+$slick-dot-color-active: $accent-color !default;
+$slick-prev-character: '\f104' !default;
+$slick-next-character: '\f105' !default;
+$slick-dot-character: '\f111' !default;
+$slick-dot-size: 10px !default;
+$slick-opacity-default: 0.75 !default;
+$slick-opacity-on-hover: 1 !default;
+$slick-opacity-not-active: 0.25 !default;
+
+@function slick-image-url($url) {
+    @if function-exists(image-url) {
+        @return image-url($url);
+    }
+    @else {
+        @return url($slick-loader-path + $url);
+    }
+}
+
+@function slick-font-url($url) {
+    @if function-exists(font-url) {
+        @return font-url($url);
+    }
+    @else {
+        @return url($slick-font-path + $url);
+    }
+}
+
+/* Slider */
+
+.slick-list {
+    .slick-loading & {
+        background: #fff slick-image-url('ajax-loader.gif') center center no-repeat;
+    }
+    .slick-slide {
+        padding: 0 2px;
+        img {
+            width: 100%;
+        }
+    }
+}
+
+#clients {
+    .slick-list {
+        width: 92%;
+        left: 4%;
+    }
+}
+
+#news {
+    margin-left: -15px;
+    margin-right: -15px;
+    .slick-slide {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width:800px) {
+    #clients {
+        .slick-list {
+            width: 90%;
+            left: 5%;
+        }
+    }
+}
+
+/* Icons */
+
+@if $slick-font-family == "FontAwesome" {
+    @font-face {
+        font-family: 'FontAwesome';
+        src: url('../fonts/fontawesome-webfont.eot?v=4.5.0');
+        src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.5.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.5.0') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.5.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.5.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.5.0#fontawesomeregular') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+}
+
+/* Arrows */
+
+.slick-prev,
+.slick-next {
+    position: absolute;
+    display: block;
+    height: 30px;
+    width: 30px;
+    line-height: 0px;
+    font-size: 0px;
+    cursor: pointer;
+    background: transparent;
+    color: transparent;
+    top: 50%;
+    margin-top: -10px\9; /*lte IE 8*/
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    padding: 0;
+    border: none;
+    outline: none;
+    &:hover, &:focus {
+        outline: none;
+        background: transparent;
+        color: transparent;
+        &:before {
+            opacity: $slick-opacity-on-hover;
+        }
+    }
+    &.slick-disabled:before {
+        opacity: $slick-opacity-not-active;
+    }
+}
+
+.slick-prev:before, .slick-next:before {
+    font-family: $slick-font-family;
+    font-size: 30px;
+    line-height: 1;
+    color: $slick-arrow-color;
+    opacity: $slick-opacity-default;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.slick-prev {
+    left: 0;
+    [dir="rtl"] & {
+        left: auto;
+        right: -25px;
+    }
+    &:before {
+        content: $slick-prev-character;
+        [dir="rtl"] & {
+            content: $slick-next-character;
+        }
+    }
+}
+
+.slick-next {
+    right: 0;
+    [dir="rtl"] & {
+        left: -25px;
+        right: auto;
+    }
+    &:before {
+        content: $slick-next-character;
+        [dir="rtl"] & {
+            content: $slick-prev-character;
+        }
+    }
+}
+
+/* Dots */
+
+.slick-slider {
+    margin-bottom: 30px;
+}
+
+.slick-dots {
+    position: absolute;
+    bottom: -45px;
+    list-style: none;
+    display: block;
+    text-align: center;
+    padding: 0;
+    width: 90%;
+    left: 5%;
+    li {
+        position: relative;
+        display: inline-block;
+        height: 40px;
+        width: 30px;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        button {
+            border: 0;
+            background: transparent;
+            display: block;
+            height: 40px;
+            width: 25px;
+            outline: none;
+            line-height: 0px;
+            font-size: 0px;
+            color: transparent;
+            padding: 0;
+            cursor: pointer;
+            &:hover, &:focus {
+                outline: none;
+            }
+            &:before {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                content: '';
+                border: 0;
+                width: 25px;
+                height: 5px;
+                background: #ddd;
+                @include opacity(1);
+                @include border-radius(10px);
+            }
+        }
+        &.slick-active button:before {
+            width: 25px;
+            height: 5px;
+            border: 0;
+            background: $accent-color;
+            margin-top: 0;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .slick-dots {
+        li {
+            width: 10px;
+            button {
+                border: 0;
+                height: 40px;
+                width: 5px;
+                cursor: pointer;
+                &:hover, &:focus {
+                    outline: none;
+                }
+                &:before {
+                    width: 5px;
+                    height: 5px;
+                }
+            }
+            &.slick-active button:before {
+                width: 5px;
+                height: 5px;
+            }
+        }
+    }
+}
